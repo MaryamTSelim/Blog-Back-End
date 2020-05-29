@@ -34,8 +34,8 @@ postRouter.post("/", async (req, res) => {
 	})
 	try {
 		const savedPost = await newPost.save();
-		res.json(savedPost);
-
+		const posts = await Post.find();
+		res.json(posts);
 	}
 	catch (err) {
 		console.log(err)
@@ -46,18 +46,20 @@ postRouter.delete('/:id', async (req, res) => {
 	const _id = req.params.id;
 	try {
 		await Post.deleteOne({ _id: _id });
+		const posts = await Post.find();
+		res.json(posts);
 	}
 	catch (err) {
 		console.log(err)
 	}
-	res.json({});
 })
 
 postRouter.put('/:id', async (req, res) => {
 	const _id = req.params.id;
 	try {
 		const post = await Post.updateOne({ _id: _id }, req.body);
-		res.json(post);
+		const posts = await Post.find();
+		res.json(posts);
 	}
 	catch (err) {
 		console.log(err)

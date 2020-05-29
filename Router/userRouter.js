@@ -4,10 +4,15 @@ const Post = require("../userModel");
 userRouter.get("/:id", async (req, res) => {
 	//find 
 	const id = req.params.id;
-	const user = await user.findOne({
+	const user = await User.findOne({
 		'id': id
 	});
 	res.json(user)
+})
+
+userRouter.get("/", async (req, res) => {
+	const users = await User.find();
+	res.json(users)
 })
 
 userRouter.post("/", async (req, res) => {
@@ -23,12 +28,26 @@ userRouter.post("/", async (req, res) => {
 	})
 	try {
 		const savedUser = await newUser.save();
-		res.json(savedUser);
+		const users = await User.find();
+		res.json(users);
 
 	}
 	catch (err) {
 		console.log(err)
 	}
+})
+
+userRouter.put('/:id', async (req, res) => {
+	const _id = req.params.id;
+	try {
+		const temp = await User.updateOne({ _id: _id }, req.body);
+		const users = await User.find();
+		res.json(users);
+	}
+	catch (err) {
+		console.log(err)
+	}
+
 })
 
 
